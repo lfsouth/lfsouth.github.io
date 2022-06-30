@@ -16,6 +16,7 @@ features = ["blog"]
 min_version = "0.50"
 
 [params]
+headTitle = "归南"
 staticPrefix = ""
 # extraCSSFiles = ["css/foo.css", "css/bar.css"]
 extraCSSFiles = []
