@@ -2,3 +2,6 @@ baseURL = 'https://lfsouth.com'
 languageCode = 'en-us'
 title = 'lfsouth'
 theme = 'yinyang'
+
+[params]
+headTitle = "归南"
