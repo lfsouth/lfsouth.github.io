@@ -7,7 +7,7 @@ theme = 'yinyang'
 headTitle = "lfsouth"
 description = "share for myself and someone"
 mainSections = ["posts"]
-favicon = "/logo.jpg"
+favicon = "/logo.png"
 
 [[params.socials]]
 name = "Github"
