@@ -8,7 +8,7 @@ headTitle = "lfsouth"
 description = "share for myself and someone"
 [[params.socials]]
 name = "About Me"
-link = "https://joway.io"
+link = "https://lfsouth.com/about"
 [[params.socials]]
 name = "Github"
-link = "https://github.com/joway"
+link = "https://github.com/lfsouth"
