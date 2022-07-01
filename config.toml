@@ -6,6 +6,7 @@ theme = 'yinyang'
 [params]
 headTitle = "lfsouth"
 description = "share for myself and someone"
+mainSections = ["posts"]
 
 [[params.socials]]
 name = "Github"
