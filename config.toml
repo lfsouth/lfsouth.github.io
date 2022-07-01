@@ -5,3 +5,10 @@ theme = 'yinyang'
 
 [params]
 headTitle = "lfsouth"
+description = "share for myself and someone"
+[[params.socials]]
+name = "About Me"
+link = "https://joway.io"
+[[params.socials]]
+name = "Github"
+link = "https://github.com/joway"
