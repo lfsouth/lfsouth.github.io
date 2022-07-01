@@ -12,5 +12,5 @@ name = "Github"
 link = "https://github.com/lfsouth"
 
 [[params.socials]]
-name = "About Me"
+name = "About"
 link = "https://lfsouth.com/about"

@@ -2,6 +2,7 @@
 title: "First"
 date: 2022-06-30T00:20:14+02:00
 draft: false
+categories: think
 ---
 
 归南
