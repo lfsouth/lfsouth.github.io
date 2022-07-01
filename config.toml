@@ -1,4 +1,4 @@
-baseURL = 'https://lfsouth.com'
+baseURL = 'https://lfsouth.com/'
 languageCode = 'en-us'
 title = 'lfsouth'
 theme = 'yinyang'
@@ -7,6 +7,7 @@ theme = 'yinyang'
 headTitle = "lfsouth"
 description = "share for myself and someone"
 mainSections = ["posts"]
+favicon = "/logo.png"
 
 [[params.socials]]
 name = "Github"
@@ -15,3 +16,5 @@ link = "https://github.com/lfsouth"
 [[params.socials]]
 name = "About"
 link = "https://lfsouth.com/about"
+
+
