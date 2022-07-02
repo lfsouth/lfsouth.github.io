@@ -5,7 +5,7 @@ theme = 'yinyang'
 
 [params]
 headTitle = "lfsouth"
-description = "What I know about the world"
+description = "I believe my understanding would help"
 mainSections = ["posts"]
 favicon = "/logo.png"
 
