@@ -17,8 +17,3 @@ link = "https://github.com/lfsouth"
 name = "About"
 link = "https://lfsouth.com/about"
 
-[languages]
-  [languages.en]
-    weight = 1
-  [languages.cn]
-    weight = 2
