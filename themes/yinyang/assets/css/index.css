@@ -90,6 +90,7 @@ a:hover {
 .header-subtitle {
   color: #666;
   font-family: 'Imperial Script', cursive;
+  font-weight: bold;
 }
 
 .header-items {
