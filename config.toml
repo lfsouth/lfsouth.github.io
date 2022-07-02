@@ -17,4 +17,12 @@ link = "https://github.com/lfsouth"
 name = "About"
 link = "https://lfsouth.com/about"
 
-
+[languages]
+  [languages.en]
+    contentDir = "content/en"
+    languageName = "English"
+    weight = 1
+  [languages.cn]
+    contentDir = "content/cn"
+    languageName = "Chinese"
+    weight = 2
