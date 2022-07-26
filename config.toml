@@ -6,7 +6,7 @@ theme = 'yinyang'
 [params]
 headTitle = "lfsouth"
 description = "Record my understandings"
-mainSections = ["posts"]
+mainSections = ["tech"]
 favicon = "/logo.png"
 
 [[params.socials]]
