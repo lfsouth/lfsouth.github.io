@@ -9,33 +9,28 @@ tags:
 
 ## physical terminal和terminal emulator
 
-很久以前，terminal是一个机器，最有名就是这个VT-100了。
+很久以前，terminal是独立的机器，典型的代表是VT-100：
 
 ![VT-100](/images/DEC_VT100_terminal.jpeg)
 
 屏幕是输出，键盘是输入。
 
-键盘上的击打会被转化为电信号通过RS-232电缆发送到Computer对应的接口上，这个电信号在被Computer接受到之后，通过硬件和驱动，最终被OS接收到；OS识别输入的具体意义，可能进行一些操作之后回复，也可能立刻回复，回复的内容，通过驱动和硬件转化为电信号并发送回terminal，而terminal接受到电信号的操作是一致的，将其按照既定规则转化为屏幕上的字符。
+键盘上的敲击会被转化为电信号通过RS-232电缆发送到Computer对应的接口上，之后通过硬件和驱动被OS接收到；OS识别输入的具体意义，进行一些操作，然后回复，回复的内容通过驱动和硬件转化为电信号并发送回terminal，terminal接受到电信号之后，将其按照既定规则转化为屏幕上的字符。
 
-所以，虽然感觉上是你敲击键盘直接在屏幕上打出文本，但其实键盘和屏幕之间是没有任何联系的；键盘的电信号只会发送给computer，而屏幕需要的电信号只会来自于computer。
+所以，虽然感觉上是你敲击键盘直接在屏幕上打出文本，但其实键盘和屏幕之间并没有直接的联系；键盘的电信号只会发送给computer，而屏幕需要的电信号只会来自于computer。
 
-现在，没人用VT-100了。
-
-现在，都是用的是terminal emulator。
-
-我用的最多的是iterm2，一个MAC OS上的terminal emulator。
+当然现在没人用VT-100了，取而代之的是terminal emulator。我日常主要使用的terminal emulator是Mac上iterm2。
 
 打开iterm2，你得到的是一个graphical application，除了边框，就是一块textual screen。
 
 什么是textual screen？就是一块被划分了行和列的screen。换句话说，这是一块铺满格子的screen，每一个格子都可以被一个行标和一个列标唯一定位。
 
-你在MAC OS上打开Finder等其他应用，你得到的是也是一个graphical application，一块screen，但是这个screen是以pixel为单元的，每一个pixel都可以被唯一定位。
+你在Mac上打开Finder等其他应用的时候，得到的也是一个graphical application，一块screen，但是这个screen是以pixel为单元的，每一个pixel都可以被唯一定位。
 
 两者只是不同的computer display mode。
 
-前者很古老，效率高，内存需求低，没多少花样可玩，最多也就是sl的效果。
-
-后者同样很古老，内存效率自然不如前者，但这种消耗对当下的电脑来说也不值一提，并且花样多，是毫无疑问的主流。
+相对于后者，前者效率高，内存需求低，但能展示的界面也过于简单了，最多也就是sl(Steam Locomotive)的效果。
+当下的主流，毫无疑问是后者。
 
 ## terminal emulator和shell
 
@@ -43,7 +38,7 @@ terminal emulator是一个executable，shell也是一个executable。
 
 因为绝大多数terminal emulator打开之后在textual screen上呈现出来的是一个prompt，所以总给人一种terminal emulator和shell是不分你我的观感。
 
-实际上，两者是完全独立的两个process。
+实际上，两者是完全独立的不同的process。
 
 将两者联系起来的是pseduoterminal，pseduoterminal是属于kernel space的，换句话说，任何对pseduoterminal的操作都是通过system calls来完成的。
 
@@ -59,9 +54,22 @@ terminal emulator可以通过pseduoterminal将数据发送到shell，shell也可
 
 ![Terminal-001](/images/terminal-001.png)
 
-terminal emulator是一个textual graphical application，打开这样的一个application，然后敲击键盘，屏幕上显示你敲击的符号，感觉上是你敲击键盘导致屏幕符号的产生，但这是错觉。
+打开iterm2，敲击键盘，对windowing system来说，这是key event；这些key events被terminal emulator这个window捕获，terminal emulator将之转化为数据通过pseduoterminal发送给shell，shell对发送过来的数据进行解释，比如执行ls命令之类的，然后将执行的结果转化为数据通过pseduoterminal发送会terminal emulator，而terminal emulator将根据数据调整textual screen上的视图，用户就在屏幕上看到结果。
 
-你敲击键盘，对windowing system来说，这是key event；这些key events被terminal emulator这个window捕获，terminal emulator将之转化为数据通过pseduoterminal发送给shell，shell对发送过来的数据进行解释，比如执行ls命令之类的，然后将执行的结果转化为数据通过pseduoterminal发送会terminal emulator，而terminal emulator将根据数据调整textual screen上的视图，用户就在屏幕上看到结果。
+这里值得一提的是shell发送给terminal emulator的数据。
+
+这种数据叫做ANSI Escape Code Sequence，ANSI escape code你可以理解为操作textual screen的指令，包括但不限于：
+
+1. 清空整个textual screen
+2. 清空第一行
+3. 清空第二列
+4. 在第三行第四列的格子写下一个字符
+5. 将第四行第五列的字符颜色设置为蓝色
+6. 将第五行第六列的格子背景色设为绿色
+
+terminal emulator按照ANSI Escape Code所代表的操作不断的修改textual screen，在完成了整个sequence之后，屏幕上展示的就是最终的结果。
+
+通常这个解释的过程都是瞬间完成的，但是放慢一点或者shell以一定的间隔不断发送ANSI Escape Code Sequences到terminal emulator，你就可以在textual screen上看到动画，这也就是sl的工作原理。
 
 ## terminal emulator和shell和ssh
 
