@@ -7,7 +7,7 @@ tags:
 - shell
 ---
 
-## physical terminal和terminal emulator
+### physical terminal和terminal emulator
 
 很久以前，terminal是一个机器，最有名就是这个VT-100了。
 
@@ -22,3 +22,43 @@ tags:
 现在，没人用VT-100了。
 
 现在，都是用的是terminal emulator。
+
+我用的最多的是iterm2，一个MAC OS上的terminal emulator。
+
+打开iterm2，你得到的是一个graphical application，除了边框，就是一块textual screen。
+
+什么是textual screen？就是一块被划分了行和列的screen。换句话说，这是一块铺满格子的screen，每一个格子都可以被一个行标和一个列标唯一定位。
+
+你在MAC OS上打开Finder等其他应用，你得到的是也是一个graphical application，一块screen，但是这个screen是以pixel为单元的，每一个pixel都可以被唯一定位。
+
+两者只是不同的computer display mode。
+
+前者很古老，效率高，内存需求低，没多少花样可玩，最多也就是sl的效果。
+
+后者同样很古老，内存效率自然不如前者，但这种消耗对当下的电脑来说也不值一提，并且花样多，是毫无疑问的主流。
+
+### terminal emulator和shell
+
+terminal emulator是一个executable，shell也是一个executable。
+
+因为绝大多数terminal emulator打开之后在textual screen上呈现出来的是一个prompt，所以总给人一种terminal emulator和shell是不分你我的观感。
+
+实际上，两者是完全独立的两个process。
+
+将两者联系起来的是pseduoterminal，pseduoterminal是属于kernel space的，换句话说，任何对pseduoterminal的操作都是通过system calls来完成的。
+
+你可以将pseduoterminal看成是一个沟通不同process的桥梁，也就是一种IPC。
+
+terminal emulator处于IPC的一端，shell处于IPC的另一端。
+
+terminal emulator可以通过pseduoterminal将数据发送到shell，shell也可以通过pseduoterminal将数据发送到terminal emulator。
+
+流程上，创建一个terminal emulator的process，创建一个executable的process，创建一个pseduoterminal，绑定terminal emulator process到pseudoterminal的一端，绑定shell process到pseduoterminal的另一端。
+
+下图是TLPI介绍terminal related system calls时候使用的图片，对应的，可以认为terminal emulator就是一个driver program，shell就是一个terminal-oriented program；其中从driver program到terminal-oriented program的fork&exec过程不是必须的，但是是常见的操作。
+
+![Terminal-001](/images/terminal-001.png)
+
+terminal emulator是一个textual graphical application，打开这样的一个application，然后敲击键盘，屏幕上显示你敲击的符号，感觉上是你敲击键盘导致屏幕符号的产生，但这是错觉。
+
+你敲击键盘，对windowing system来说，这是key event；这些key events被terminal emulator这个window捕获，terminal emulator将之转化为数据通过pseduoterminal发送给shell，shell对发送过来的数据进行解释，比如执行ls命令之类的，然后将执行的结果转化为数据通过pseduoterminal发送会terminal emulator，而terminal emulator将根据数据调整textual screen上的视图，用户就在屏幕上看到结果。
