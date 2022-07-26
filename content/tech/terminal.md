@@ -7,7 +7,7 @@ tags:
 - shell
 ---
 
-### physical terminal和terminal emulator
+## physical terminal和terminal emulator
 
 很久以前，terminal是一个机器，最有名就是这个VT-100了。
 
@@ -37,7 +37,7 @@ tags:
 
 后者同样很古老，内存效率自然不如前者，但这种消耗对当下的电脑来说也不值一提，并且花样多，是毫无疑问的主流。
 
-### terminal emulator和shell
+## terminal emulator和shell
 
 terminal emulator是一个executable，shell也是一个executable。
 
@@ -62,3 +62,40 @@ terminal emulator可以通过pseduoterminal将数据发送到shell，shell也可
 terminal emulator是一个textual graphical application，打开这样的一个application，然后敲击键盘，屏幕上显示你敲击的符号，感觉上是你敲击键盘导致屏幕符号的产生，但这是错觉。
 
 你敲击键盘，对windowing system来说，这是key event；这些key events被terminal emulator这个window捕获，terminal emulator将之转化为数据通过pseduoterminal发送给shell，shell对发送过来的数据进行解释，比如执行ls命令之类的，然后将执行的结果转化为数据通过pseduoterminal发送会terminal emulator，而terminal emulator将根据数据调整textual screen上的视图，用户就在屏幕上看到结果。
+
+## terminal emulator和shell和ssh
+
+在我的MAC OS上，我的iterm2是这样的：
+
+![Terminal-002](/images/terminal-002.png)
+
+在我的MAC OS上，我的iterm2是这样的：
+
+![Terminal-003](/images/terminal-003.png)
+
+所以，实际发生了什么呢？
+
+![Terminal-004](/images/terminal-004.png)
+
+在Mac上打开iterm2，这里iterm2是一个terminal emulator，其和一个zsh通过pty相连，当我在输入ssh 的时候，iterm2捕获了这个这一行命令，通过pty发送给了zsh，zsh fork&exec一个ssh client，ssh client通过TCP/IP和远端的ssh server相连。
+作为响应，远端的ssh server fork&exec一个login shell，并通过pty将ssh server和login shell连接起来。
+
+这样一个长长的通路就建立了，login shell发送的ANSI escape codes sequence通过pty，ssh server，tcp/ip，ssh client，zsh，pty最终到达iterm2，然后iterm2这个terminal emulator根据这个sequence修改其textual screen的试图，这就是屏幕上所显示的东西。
+
+Mac上的zsh我做了多样的配置，明显提供了更复杂的sequence，呈现出来的效果也很好，而vm里面的login shell只是默认的配置，其sequence没那么多花样，出现的效果就很朴素。
+
+## terminal emulator和shell和vim
+
+![Terminal-005](/images/terminal-005.png)
+
+这是在Mac的iterm2直接使用vim打开一个文件的界面。
+
+其背后的实现时这样的：
+
+不同的是，当textual screen里面展示的是prompt的时候，terminal处于canonical状态，这个时候数据在pty上是以行为单位来传输的。
+
+而当textual screen里面展示的是如上vim的操作界面的时候，terminal实际上时处于noncanionical状态的，这个时候数据是以一个字符未单位来传输的。
+
+## device & driver
+
+
