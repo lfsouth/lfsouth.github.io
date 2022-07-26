@@ -11,7 +11,7 @@ tags:
 
 很久以前，terminal是一个机器，最有名就是这个VT-100了。
 
-![VT-100](/static/DEC_VT100_terminal.jpeg)
+![VT-100](/images/DEC_VT100_terminal.jpeg)
 
 屏幕是输出，键盘是输入。
 
