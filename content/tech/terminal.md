@@ -2,7 +2,9 @@
 title: "我对于terminal的认知"
 date: 2022-07-26T21:27:10+02:00
 draft: false
-tags: terminal, shell
+tags:
+- terminal
+- shell
 ---
 
 ## physical terminal和terminal emulator
